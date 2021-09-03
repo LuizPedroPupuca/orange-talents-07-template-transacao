@@ -6,13 +6,13 @@ import javax.validation.constraints.NotBlank;
 
 public class EstabelecimentoRequest {
 
-    @NotBlank
+
     private String nome;
 
-    @NotBlank
+
     private String cidade;
 
-    @NotBlank
+
     private String endereco;
 
     @Deprecated

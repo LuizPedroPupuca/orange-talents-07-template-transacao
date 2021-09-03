@@ -11,21 +11,17 @@ import java.time.LocalDateTime;
 
 public class TransacaoRequest {
 
-    @NotBlank
+
     private String id;
 
-    @NotNull
     private BigDecimal valor;
 
-    @NotNull
     private EstabelecimentoRequest estabelecimento;
 
-    @NotNull
     private CartaoRequest cartao;
 
     private LocalDateTime efetivadaEm;
 
-    @Deprecated
     public TransacaoRequest(){}
 
     public TransacaoRequest(String id, BigDecimal valor,

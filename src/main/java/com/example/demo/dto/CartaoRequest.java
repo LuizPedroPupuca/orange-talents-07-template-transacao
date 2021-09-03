@@ -7,10 +7,10 @@ import javax.validation.constraints.NotBlank;
 
 public class CartaoRequest {
 
-    @NotBlank
+
     private String id;
 
-    @NotBlank @Email
+
     private String email;
 
     @Deprecated
