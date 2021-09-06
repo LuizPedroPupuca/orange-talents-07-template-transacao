@@ -1,15 +1,15 @@
 package com.example.demo.dto;
 
 import com.example.demo.model.Cartao;
+import com.example.demo.validation.UniqueValue;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 
 public class CartaoRequest {
 
-
+    @UniqueValue(fieldName = "idCartao", domainClass = Cartao.class)
     private String id;
-
 
     private String email;
 

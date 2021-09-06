@@ -34,8 +34,8 @@ public class TransacaoRequest {
         this.efetivadaEm = efetivadaEm;
     }
 
-    public Transacao toModel() {
-        return new Transacao(id, valor, estabelecimento.toModel(), cartao.toModel(), efetivadaEm);
+    public Transacao toModel(Estabelecimento estabelecimento, Cartao cartao) {
+        return new Transacao(id, valor,estabelecimento, cartao, efetivadaEm);
     }
 
 

@@ -8,7 +8,6 @@ public class Cartao {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
     private String idCartao;
 
     @Column(nullable = false)
