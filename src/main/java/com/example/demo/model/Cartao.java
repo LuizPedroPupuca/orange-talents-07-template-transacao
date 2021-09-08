@@ -28,4 +28,5 @@ public class Cartao {
     public String getEmail() {
         return email;
     }
+
 }
