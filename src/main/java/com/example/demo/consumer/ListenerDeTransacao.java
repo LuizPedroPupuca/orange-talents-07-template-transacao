@@ -9,9 +9,11 @@ import com.example.demo.repository.EstabelecimentoRepository;
 import com.example.demo.repository.TransacaoRepository;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Component;
+import org.springframework.web.server.ResponseStatusException;
 
 import javax.validation.Valid;
 import java.util.Optional;
@@ -32,26 +34,14 @@ public class ListenerDeTransacao {
     @KafkaListener(topics = "${spring.kafka.topic.transactions}",
             containerFactory = "kafkaListenerContainerFactory")
     public void ouvir(TransacaoRequest transacaoRequest) {
-        Optional<Cartao> cartaoOptional = cartaoRepository
-                .findByIdCartao(transacaoRequest.getCartao().getId());
-        Cartao cartao = null;
-        if (cartaoOptional.isEmpty()){
-            cartao = transacaoRequest.getCartao().toModel();
-            cartaoRepository.save(cartao);
-        }else {
-            cartao = cartaoOptional.get();
-        }
+        Cartao cartao = cartaoRepository.findByIdCartao(transacaoRequest
+                .getCartao().getId()).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,"Cartão inexistente"));
 
-        Optional<Estabelecimento> estabelecimentoOptional = estabelecimentoRepository
-                .findByNome(transacaoRequest.getEstabelecimento().getNome());
-        Estabelecimento estabelecimento = null;
-        if (estabelecimentoOptional.isEmpty()){
-            estabelecimento = transacaoRequest.getEstabelecimento().toModel();
-            estabelecimentoRepository.save(estabelecimento);
-        }
-        else {
-            estabelecimento = estabelecimentoOptional.get();
-        }
+        Estabelecimento estabelecimento = estabelecimentoRepository
+                .findByNome((transacaoRequest.getEstabelecimento().getNome()))
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,"Estabelecimento inexistente"));
+
+
         Transacao transacao = transacaoRequest.toModel(estabelecimento, cartao);
         transacaoRepository.save(transacao);
     }
